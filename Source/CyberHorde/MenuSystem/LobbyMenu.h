@@ -20,22 +20,25 @@ public:
 		
 private:
 	// Controls for lobby menu
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* LM_SessionTitleTextBlock;
+	//UPROPERTY(meta = (BindWidget))
+	//class UTextBlock* LM_SessionTitleTextBlock; // Display name of session
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* LM_MapTitleTextBlock;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* HM_SelectLevelButton; // Navigate to level select screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UImage* LM_MapThumbnail;
+	//UPROPERTY(meta = (BindWidget))
+	//class UTextBlock* LM_MapTitleTextBlock; // Display title of selected map
 
-	UPROPERTY(meta = (BindWidget))
-	UPlayerGrid* LM_PlayerGrid;
+	//UPROPERTY(meta = (BindWidget))
+	//class UImage* LM_MapThumbnail; // Display thumbnail of selected map
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* LM_LeaveButton; // Transition to MainMenu map
+	//UPROPERTY(meta = (BindWidget))
+	//UPlayerGrid* LM_PlayerGrid;    // Displays players in the lobby and pending invites
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* LM_ReadyButton; // When all players are ready, launch match
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* LM_LeaveButton; // Transition to MainMenu map
+
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* LM_ReadyButton; // When all players are ready, launch match
 	
 };

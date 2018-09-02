@@ -4,14 +4,29 @@
 
 #include "Engine/Engine.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
 #include "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "OnlineSessionInterface.h"
 
+#include "MenuSystem/MainMenu.h"
+#include "MenuSystem/LobbyMenu.h"
+#include "MenuSystem/MenuWidget.h"
+
 UCHGameInstance::UCHGameInstance(const FObjectInitializer & ObjectInitializer)
 {
-	// TODO: Construct instances of main menu and in game menu objects
+	ConstructorHelpers::FClassFinder<UUserWidget> MainMenuBPClass(TEXT("/game/MenuSystem/Blueprints/WBP_MainMenu"));
+	if (!ensure(MainMenuBPClass.Class != nullptr)) return;
+	MainMenuClass = MainMenuBPClass.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> LobbyMenuBPClass(TEXT("/game/MenuSystem/Blueprints/WBP_LobbyMenu"));
+	if (!ensure(LobbyMenuBPClass.Class != nullptr)) return;
+	LobbyMenuClass = LobbyMenuBPClass.Class;
+
+	ConstructorHelpers::FClassFinder<UUserWidget> InGameMenuBPClass(TEXT("/game/MenuSystem/Blueprints/WBP_InGameMenu"));
+	if (!ensure(InGameMenuBPClass.Class != nullptr)) return;
+	InGameMenuClass = InGameMenuBPClass.Class;
 }
 
 void UCHGameInstance::Init()
@@ -49,16 +64,37 @@ void UCHGameInstance::Init()
 
 void UCHGameInstance::LoadMenuWidget()
 {
-	// TODO: Load main menu
+	if (!ensure(MainMenuClass != nullptr)) return;
+	
+	Menu = CreateWidget<UMainMenu>(this, MainMenuClass);
+	if (!ensure(Menu != nullptr)) return;
+
+	Menu->Setup();
+	Menu->SetMenuInterface(this);
 }
 
-void UCHGameInstance::LoadLobbyWidget()
+void UCHGameInstance::InLobbyLoadMenu()
 {
+	if (!ensure(LobbyMenuClass != nullptr)) return;
+
+	LobbyMenu = CreateWidget<ULobbyMenu>(this, LobbyMenuClass);
+	if (!ensure(LobbyMenu != nullptr)) return;
+
+	LobbyMenu->Setup();
+
+	LobbyMenu->SetMenuInterface(this);
 }
 
 void UCHGameInstance::InGameLoadMenu()
 {
-	// TODO: Load pause menu
+	if (!ensure(InGameMenuClass != nullptr)) return;
+
+	UMenuWidget* Menu = CreateWidget<UMenuWidget>(this, InGameMenuClass);
+	if (!ensure(Menu != nullptr)) return;
+
+	Menu->Setup();
+
+	Menu->SetMenuInterface(this);
 }
 
 void UCHGameInstance::Host()
@@ -135,7 +171,11 @@ void UCHGameInstance::OnCreateSessionComplete(FName SessionName, bool bWasSucces
 	if (bWasSuccessful)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Finished creating session"));
-		// TODO: Teardown menu if it's not null
+		
+		if (Menu != nullptr)
+		{
+			Menu->Teardown();
+		}
 
 		UEngine* Engine = GetEngine();
 		if (!ensure(Engine != nullptr)) return;
@@ -160,6 +200,10 @@ void UCHGameInstance::OnFindSessionsComplete(bool bWasSuccessful)
 
 
 		// If not traveling and menu isn't null, set the server list on the menu
+		if (!bIsTraveling && Menu != nullptr)
+		{
+			Menu->SetServerList(SearchResults);
+		}
 		
 		for (FOnlineSessionSearchResult& SearchResult : SearchResults)
 		{

@@ -27,106 +27,98 @@ private:
 
 	// Widget for switching screens
 	UPROPERTY(meta = (BindWidget))
-	class UWidgetSwitcher* MenuSwitcher;
+	class UWidgetSwitcher* MenuSwitcher;	// Switch between which menu is displayed
 
 	// Controls for the first screen (single player, multiplayer, options, and quit)
 	UPROPERTY(meta = (BindWidget))
-	class UButton* MM_SinglePlayerButton;
+	class UButton* MM_SinglePlayerButton;	// Navigate to single player screen
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* MM_MultiplayerButton;
+	class UButton* MM_MultiplayerButton;	// Navigate to multiplayer screen
+
+	// TODO: Figure out what options we'd like to offer
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* MM_OptionsButton;	// Navigate to options menu
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* MM_OptionsButton;
-
-	UPROPERTY(meta = (BindWidget))
-	class UButton* MM_QuitButton;
+	class UButton* MM_QuitButton;	// Quit to the desktop game
 
 	// Controls for singleplayer screen
-	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_LevelSelectButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* SP_LevelSelectButton;	// Navigate to level select screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UCheckBox* SP_FillPartyWithBotsCheckBox;
+	//UPROPERTY(meta = (BindWidget))
+	//class UCheckBox* SP_FillPartyWithBotsCheckBox;	// Populate total players with AI names (pass in to game)
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* SP_MapTitleTextBlock;
+	//UPROPERTY(meta = (BindWidget))
+	//class UTextBlock* SP_MapTitleTextBlock;	// Display title of selected single player map
 
-	UPROPERTY(meta = (BindWidget))
-	class UImage* SP_MapThumbnail;
+	//UPROPERTY(meta = (BindWidget))
+	//class UImage* SP_MapThumbnail;	// Display thumbnail of selected single player map
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* SP_MaxPlayersTextBlock;
+	//UPROPERTY(meta = (BindWidget))
+	//class UTextBlock* SP_SquadSizeTextBlock;	// Display squad size in single player match
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_IncreaseMaxPlayersButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* SP_IncreaseSquadSizeButton;	// Increase size of squad members in single player match
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_DecreaseMaxPlayersButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* SP_DecreaseSquadSizeButton;	// Decreas size of squad members in single player match
 
-	UPROPERTY(meta = (BindWidget))
-	UPlayerGrid* SP_PlayerGrid;
+	//UPROPERTY(meta = (BindWidget))
+	//UPlayerGrid* SP_PlayerGrid;	// Display squad members
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_StartButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* SP_StartButton;	// Launch map, passing in AI for remaining squad members
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_CancelButton;
-		
-	
-	// Controls for multiplayer screen
-	UPROPERTY(meta = (BindWidget))
-	class UButton* MP_HostButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* SP_CancelButton;	//	Navigate to main screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* MP_JoinButton;
+	//// Controls for multiplayer screen
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* MP_HostButton;	// Navigate to host screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* MP_Multiplayer_CancelButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* MP_JoinButton;	// Navigate to join screen
 
-	// Controls for host menu
-	UPROPERTY(meta = (BindWidget))
-	class UButton* HM_SelectLevelButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* MP_Multiplayer_CancelButton;	// Navigate to main screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UCheckBox* HM_InviteOnlyCheckBox;
+	//// Controls for host menu
 
-	UPROPERTY(meta = (BindWidget))
-	class UCheckBox* HM_FriendsOnlyCheckBox;
+	//UPROPERTY(meta = (BindWidget))
+	//class UCheckBox* HM_InviteOnlyCheckBox;	// Don't advertise, must have invite to join
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* HM_MaxPlayersTextBlock;
+	//UPROPERTY(meta = (BindWidget))
+	//class UCheckBox* HM_FriendsOnlyCheckBox;	// Advertise, but only allow friends to join
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* HM_IncreaseMaxPlayersButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UTextBlock* HM_SquadSizeTextBlock;	// Display target squad size
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* HM_DecreaseMaxPlayersButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* HM_IncreaseSquadSizeButton;	// Increase the squad size
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* HM_MapTitleTextBlock;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* HM_DecreaseSquadSizeButton;	// Decrease the squad size
 
-	UPROPERTY(meta = (BindWidget))
-	class UImage* HM_MapThumbnail;
+	//UPROPERTY(meta = (BindWidget))
+	//UPlayerGrid* HM_PlayerGrid;		// Display Squad Size
 
-	UPROPERTY(meta = (BindWidget))
-	UPlayerGrid* HM_PlayerGrid;
-	
-	UPROPERTY(meta = (BindWidget))
-	class UButton* HM_CancelButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* HM_CancelButton;	// Navigate to multiplayer screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* HM_StartButton; // Transition to Lobby map
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* HM_StartButton; // Create session and transition to Lobby map
 
-	// Controls for join menu
-	UPROPERTY(meta = (BindWidget))
-	class UPanelWidget* JM_ServerList;
+	//// Controls for join menu
+	//UPROPERTY(meta = (BindWidget))
+	//class UPanelWidget* JM_ServerList;	// List advertised sessions
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* JM_CancelButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* JM_CancelButton;	// Navigate to multiplayer screen
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* JM_JoinButton;
+	//UPROPERTY(meta = (BindWidget))
+	//class UButton* JM_JoinButton;	// Join session and transition to Lobby map
 
 	
 

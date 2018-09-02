@@ -25,7 +25,7 @@ public:
 	void LoadMenuWidget();
 
 	UFUNCTION(BlueprintCallable)
-	void LoadLobbyWidget();
+	void InLobbyLoadMenu();
 
 	UFUNCTION(BlueprintCallable)
 	void InGameLoadMenu();
@@ -42,6 +42,13 @@ public:
 	virtual void LoadMainMenu() override;
 
 private:
+	TSubclassOf<class UUserWidget> MainMenuClass;
+	TSubclassOf<class UUserWidget> InGameMenuClass;
+	TSubclassOf<class UUserWidget> LobbyMenuClass;
+
+	class UMainMenu* Menu;
+	class ULobbyMenu* LobbyMenu;
+
 	bool bIsTraveling = false;
 	bool bIsLan = true;
 	bool bUseLobbies = true;
