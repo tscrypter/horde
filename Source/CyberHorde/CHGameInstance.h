@@ -25,6 +25,9 @@ public:
 	void LoadMenuWidget();
 
 	UFUNCTION(BlueprintCallable)
+	void LoadLobbyWidget();
+
+	UFUNCTION(BlueprintCallable)
 	void InGameLoadMenu();
 
 	UFUNCTION(Exec)

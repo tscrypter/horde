@@ -2,6 +2,9 @@
 
 #include "LobbyMenu.h"
 
+ULobbyMenu::ULobbyMenu(const FObjectInitializer & ObjectInitializer)
+{
 
+}
 
 

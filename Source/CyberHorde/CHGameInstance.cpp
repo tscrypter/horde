@@ -29,6 +29,8 @@ void UCHGameInstance::Init()
 			bIsLan = false;
 		}
 
+		UE_LOG(LogTemp, Warning, TEXT("Using subsystem %s"),*SubSystem->GetSubsystemName().ToString());
+
 		SessionInterface = SubSystem->GetSessionInterface();
 
 		if (SessionInterface.IsValid())
@@ -48,6 +50,10 @@ void UCHGameInstance::Init()
 void UCHGameInstance::LoadMenuWidget()
 {
 	// TODO: Load main menu
+}
+
+void UCHGameInstance::LoadLobbyWidget()
+{
 }
 
 void UCHGameInstance::InGameLoadMenu()
