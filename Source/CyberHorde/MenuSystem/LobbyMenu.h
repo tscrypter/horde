@@ -36,6 +36,6 @@ private:
 	class UButton* LM_LeaveButton; // Transition to MainMenu map
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* LM_ReadyButton;
+	class UButton* LM_ReadyButton; // When all players are ready, launch match
 	
 };
