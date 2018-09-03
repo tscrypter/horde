@@ -21,9 +21,30 @@ public:
 	void SetServerList(TArray<FOnlineSessionSearchResult> ServerNames);
 
 	void SelectServer(FString SessionIdStr);
+
+	bool Initialize();
 	
 private:
 	TSubclassOf<class UUserWidget> ServerRowClass;
+
+	// Screens
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* MainScreen;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* SinglePlayerScreen;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* LevelSelectScreen;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* MultiplayerScreen;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* HostScreen;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWidget* JoinScreen;
 
 	// Widget for switching screens
 	UPROPERTY(meta = (BindWidget))
@@ -44,35 +65,32 @@ private:
 	class UButton* MM_QuitButton;	// Quit to the desktop game
 
 	// Controls for singleplayer screen
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* SP_LevelSelectButton;	// Navigate to level select screen
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SP_LevelSelectButton;	// Navigate to level select screen
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UCheckBox* SP_FillPartyWithBotsCheckBox;	// Populate total players with AI names (pass in to game)
+	UPROPERTY(meta = (BindWidget))
+	class UCheckBox* SP_FillPartyWithBotsCheckBox;	// Populate total players with AI names (pass in to game)
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UTextBlock* SP_MapTitleTextBlock;	// Display title of selected single player map
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* SP_MapTitleTextBlock;	// Display title of selected single player map
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UImage* SP_MapThumbnail;	// Display thumbnail of selected single player map
+	UPROPERTY(meta = (BindWidget))
+	class UImage* SP_MapThumbnail;	// Display thumbnail of selected single player map
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UTextBlock* SP_SquadSizeTextBlock;	// Display squad size in single player match
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SP_IncreaseSquadSizeButton;	// Increase size of squad members in single player match
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* SP_IncreaseSquadSizeButton;	// Increase size of squad members in single player match
-
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* SP_DecreaseSquadSizeButton;	// Decreas size of squad members in single player match
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SP_DecreaseSquadSizeButton;	// Decreas size of squad members in single player match
 
 	//UPROPERTY(meta = (BindWidget))
 	//UPlayerGrid* SP_PlayerGrid;	// Display squad members
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* SP_StartButton;	// Launch map, passing in AI for remaining squad members
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SP_StartButton;	// Launch map, passing in AI for remaining squad members
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* SP_CancelButton;	//	Navigate to main screen
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SP_CancelButton;	//	Navigate to main screen
 
 	//// Controls for multiplayer screen
 	//UPROPERTY(meta = (BindWidget))
@@ -120,6 +138,11 @@ private:
 	//UPROPERTY(meta = (BindWidget))
 	//class UButton* JM_JoinButton;	// Join session and transition to Lobby map
 
-	
+	UFUNCTION()
+	void OpenMainMenu();
+
+	UFUNCTION()
+	void OpenSingleplayerMenu();
+
 
 };
