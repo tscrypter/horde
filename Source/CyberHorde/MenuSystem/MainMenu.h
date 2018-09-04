@@ -18,6 +18,8 @@ class CYBERHORDE_API UMainMenu : public UMenuWidget
 public:
 	UMainMenu(const FObjectInitializer & ObjectInitializer);
 
+	void SetLevelList(TArray<FLevelStruct> Levels);
+
 	void SetServerList(TArray<FOnlineSessionSearchResult> ServerNames);
 
 	void SelectServer(FString SessionIdStr);
@@ -67,24 +69,22 @@ private:
 	// Controls for singleplayer screen
 	UPROPERTY(meta = (BindWidget))
 	class UButton* SP_LevelSelectButton;	// Navigate to level select screen
+	
+	UPROPERTY(meta = (BindWidget))
+	class UButton* SP_IncreaseSquadSizeButton;	// Increase size of squad members in single player match
 
 	UPROPERTY(meta = (BindWidget))
-	class UCheckBox* SP_FillPartyWithBotsCheckBox;	// Populate total players with AI names (pass in to game)
-
+	class UButton* SP_DecreaseSquadSizeButton;	// Decreas size of squad members in single player match
+	
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* SP_MapTitleTextBlock;	// Display title of selected single player map
 
 	UPROPERTY(meta = (BindWidget))
 	class UImage* SP_MapThumbnail;	// Display thumbnail of selected single player map
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_IncreaseSquadSizeButton;	// Increase size of squad members in single player match
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* SP_DecreaseSquadSizeButton;	// Decreas size of squad members in single player match
-
-	//UPROPERTY(meta = (BindWidget))
-	//UPlayerGrid* SP_PlayerGrid;	// Display squad members
+	UPlayerGrid* SP_SquadGrid;	// Display squad members
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* SP_StartButton;	// Launch map, passing in AI for remaining squad members
@@ -92,15 +92,15 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* SP_CancelButton;	//	Navigate to main screen
 
-	//// Controls for multiplayer screen
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* MP_HostButton;	// Navigate to host screen
+	// Controls for multiplayer screen
+	UPROPERTY(meta = (BindWidget))
+	class UButton* MP_HostButton;	// Navigate to host screen
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* MP_JoinButton;	// Navigate to join screen
+	UPROPERTY(meta = (BindWidget))
+	class UButton* MP_JoinButton;	// Navigate to join screen
 
-	//UPROPERTY(meta = (BindWidget))
-	//class UButton* MP_Multiplayer_CancelButton;	// Navigate to main screen
+	UPROPERTY(meta = (BindWidget))
+	class UButton* MP_CancelButton;	// Navigate to main screen
 
 	//// Controls for host menu
 
@@ -138,11 +138,33 @@ private:
 	//UPROPERTY(meta = (BindWidget))
 	//class UButton* JM_JoinButton;	// Join session and transition to Lobby map
 
+	// Open menus
 	UFUNCTION()
 	void OpenMainMenu();
 
 	UFUNCTION()
 	void OpenSingleplayerMenu();
 
+	UFUNCTION()
+	void OpenMultiplayerMenu();
+
+
+
+	// Shared callbacks
+	UFUNCTION()
+	void IncreaseSquadSize();
+
+	UFUNCTION()
+	void DecreaseSquadSize();
+
+
+	// Launch Levels
+	UFUNCTION()
+	void LaunchSingleplayerLevel();
+
+
+	// Set Level
+	UFUNCTION()
+	void SetSingleplayerLevel(FLevelStruct Level);
 
 };

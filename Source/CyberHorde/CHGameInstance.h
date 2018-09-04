@@ -6,6 +6,9 @@
 #include "Engine/GameInstance.h"
 #include "MenuSystem/MenuInterface.h"
 #include "OnlineSessionInterface.h"
+
+#include "CHStructs.h"
+
 #include "CHGameInstance.generated.h"
 
 /**
@@ -39,6 +42,33 @@ public:
 	UFUNCTION(Exec)
 	void GetSessions() override;
 
+	UFUNCTION()
+	void SetSingleplayerMap(FLevelStruct SelectedLevel) override;
+
+	UFUNCTION()
+	FLevelStruct GetSingleplayerMap() override;
+
+	UFUNCTION()
+	void SetMultiplayerMap(FLevelStruct SelectedLevel) override;
+
+	UFUNCTION()
+	FLevelStruct GetMultiplayerMap() override;
+
+	UFUNCTION()
+	void LaunchSingleplayer() override;
+
+	UFUNCTION()
+	void SetSquadSize(uint16 InSize) override;
+
+	UFUNCTION()
+	TArray<FPlayerData> GetSquad() override;
+
+	UFUNCTION()
+	void RefreshSquad() override;
+
+	UFUNCTION()
+	void AddPlayerToSquad(FPlayerData PlayerData);
+
 	virtual void LoadMainMenu() override;
 
 private:
@@ -48,6 +78,11 @@ private:
 
 	class UMainMenu* Menu;
 	class ULobbyMenu* LobbyMenu;
+
+	FLevelStruct SingleplayerLevel;
+	FLevelStruct MultiplayerLevel;
+	uint16 iSquadSize;
+	TArray<FPlayerData> Squad;
 
 	bool bIsTraveling = false;
 	bool bIsLan = true;
@@ -59,14 +94,16 @@ private:
 	uint32 iNumPublicConnections = 5;
 	uint32 iMaxSearchResults = 100;
 
-	IOnlineSessionPtr SessionInterface;
+	void OnConnectionStatusChangedDelegates(const FString& ServiceName, EOnlineServerConnectionStatus::Type LastConnectionState, EOnlineServerConnectionStatus::Type ConnectionState);
 
+	IOnlineSessionPtr SessionInterface;
 
 	void CreateSession(FName SessionName);
 	void OnCreateSessionComplete(FName SessionName, bool bWasSuccessful);
 	void OnFindSessionsComplete(bool bWasSuccessful);
 	void OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result);
 	void OnDestroySessionCompleteDelegate(FName SessionName, bool bWasSuccessful);
+
 
 	const FName DEFAULT_SESSION_NAME = TEXT("My Session Game");
 	FName SessionName = DEFAULT_SESSION_NAME;

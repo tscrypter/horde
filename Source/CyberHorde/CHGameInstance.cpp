@@ -9,6 +9,7 @@
 #include "OnlineSubsystem.h"
 #include "OnlineSessionSettings.h"
 #include "OnlineSessionInterface.h"
+#include "Runtime/Engine/Classes/GameFramework/PlayerState.h"
 
 #include "MenuSystem/MainMenu.h"
 #include "MenuSystem/LobbyMenu.h"
@@ -35,6 +36,8 @@ void UCHGameInstance::Init()
 	IOnlineSubsystem* SubSystem = IOnlineSubsystem::Get();
 	if (SubSystem != nullptr)
 	{
+		SubSystem->OnConnectionStatusChangedDelegates.AddUObject(this, &UCHGameInstance::OnConnectionStatusChangedDelegates);
+
 		if (*SubSystem->GetSubsystemName().ToString() == FString("NULL"))
 		{
 			bIsLan = true;
@@ -70,7 +73,18 @@ void UCHGameInstance::LoadMenuWidget()
 	if (!ensure(Menu != nullptr)) return;
 
 	Menu->Setup();
+
 	Menu->SetMenuInterface(this);
+
+	FLevelStruct FirstLevel;
+	FirstLevel.LevelImage = "/Game/MenuSystem/Images/Splash";
+	FirstLevel.LevelName = "Example Map";
+	FirstLevel.LevelPath = "/Game/FirstPersonCPP/Maps/FirstPersonExampleMap";
+
+	TArray<FLevelStruct> LevelList;
+	LevelList.Add(FirstLevel);
+
+	Menu->SetLevelList(LevelList);
 }
 
 void UCHGameInstance::InLobbyLoadMenu()
@@ -119,6 +133,15 @@ void UCHGameInstance::Join(uint32 Index)
 	if (!SessionSearch.IsValid()) return;
 
 	// TODO: Teardown menu after it's been created if it's not null
+	if (Menu != nullptr)
+	{
+		Menu->Teardown();
+	}
+
+	if (LobbyMenu != nullptr)
+	{
+		LobbyMenu->Teardown();
+	}
 
 	SessionInterface->JoinSession(0, SessionName, SessionSearch->SearchResults[Index]);
 
@@ -140,12 +163,24 @@ void UCHGameInstance::GetSessions()
 	}
 }
 
+void UCHGameInstance::AddPlayerToSquad(FPlayerData PlayerData)
+{
+	Squad.Add(PlayerData);
+}
+
 void UCHGameInstance::LoadMainMenu()
 {
 	APlayerController* PlayerController = GetFirstLocalPlayerController();
 	if (!ensure(PlayerController != nullptr)) return;
 
 	PlayerController->ClientTravel("/Game/MenuSystem/MainMenu", ETravelType::TRAVEL_Absolute);
+}
+
+void UCHGameInstance::OnConnectionStatusChangedDelegates(const FString & ServiceName, EOnlineServerConnectionStatus::Type LastConnectionState, EOnlineServerConnectionStatus::Type ConnectionState)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Service Name: %s"), *ServiceName);
+	UE_LOG(LogTemp, Warning, TEXT("Last Connection State: %s"), LastConnectionState);
+	UE_LOG(LogTemp, Warning, TEXT("Connection State: %s"), ConnectionState);
 }
 
 void UCHGameInstance::CreateSession(FName SessionName)
@@ -247,4 +282,69 @@ void UCHGameInstance::OnDestroySessionCompleteDelegate(FName SessionName, bool b
 		UE_LOG(LogTemp, Warning, TEXT("Failed to destroy session"));
 
 	}
+}
+
+void UCHGameInstance::SetSingleplayerMap(FLevelStruct SelectedLevel)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Setting single player level to: %s"), *SelectedLevel.LevelPath);
+	SingleplayerLevel = SelectedLevel;
+}
+
+FLevelStruct UCHGameInstance::GetSingleplayerMap()
+{
+	return SingleplayerLevel;
+}
+
+void UCHGameInstance::SetMultiplayerMap(FLevelStruct SelectedLevel)
+{
+	MultiplayerLevel = SelectedLevel;
+}
+
+FLevelStruct UCHGameInstance::GetMultiplayerMap()
+{
+	return MultiplayerLevel;
+}
+
+void UCHGameInstance::LaunchSingleplayer()
+{
+	if (SingleplayerLevel.LevelPath != "")
+	{
+		if (Menu != nullptr)
+		{
+			Menu->Teardown();
+		}
+
+		UEngine* Engine = GetEngine();
+		if (!ensure(Engine != nullptr)) return;
+
+
+		UWorld* World = GetWorld();
+		if (!ensure(World != nullptr)) return;
+		bIsTraveling = true;
+		World->ServerTravel(SingleplayerLevel.LevelPath);
+	}
+}
+
+void UCHGameInstance::SetSquadSize(uint16 InSize)
+{
+	iSquadSize = InSize;
+}
+
+TArray<FPlayerData> UCHGameInstance::GetSquad()
+{
+	return Squad;
+}
+
+void UCHGameInstance::RefreshSquad()
+{
+	APlayerController* PlayerController = GetFirstLocalPlayerController();
+	if (!ensure(PlayerController != nullptr)) return;
+
+	FPlayerData PlayerData;
+	PlayerData.Username = PlayerController->PlayerState->GetPlayerName();
+	PlayerData.Avatar = Cast<UTexture2D>(StaticLoadObject(UTexture2D::StaticClass(), NULL, *FString("/Game/MenuSystem/Images/avatar")));
+
+	UE_LOG(LogTemp, Warning, TEXT("Adding player with username: %s"), *PlayerData.Username);
+
+	AddPlayerToSquad(PlayerData);
 }
